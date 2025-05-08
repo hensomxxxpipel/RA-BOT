@@ -20,18 +20,39 @@ import json
 def initialize_firebase():
     if not firebase_admin._apps:
         try:
-            key_dict = json.loads(st.secrets["firebase_key"])
-            with open("temp_firebase_key.json", "w") as f:
-                json.dump(key_dict, f)
+            # Buat dictionary untuk credentials
+            firebase_config = {
+                "type": st.secrets["firebase"]["type"],
+                "project_id": st.secrets["firebase"]["project_id"],
+                "private_key_id": st.secrets["firebase"]["private_key_id"],
+                "private_key": st.secrets["firebase"]["private_key"],
+                "client_email": st.secrets["firebase"]["client_email"],
+                "client_id": st.secrets["firebase"]["client_id"],
+                "auth_uri": st.secrets["firebase"]["auth_uri"],
+                "token_uri": st.secrets["firebase"]["token_uri"],
+                "auth_provider_x509_cert_url": st.secrets["firebase"]["auth_provider_x509_cert_url"],
+                "client_x509_cert_url": st.secrets["firebase"]["client_x509_cert_url"],
+                "universe_domain": st.secrets["firebase"]["universe_domain"]
+            }
             
-            cred = credentials.Certificate("temp_firebase_key.json")
+            # Simpan ke file temporary
+            with open("firebase_key_temp.json", "w") as f:
+                json.dump(firebase_config, f)
+            
+            # Gunakan file untuk inisialisasi
+            cred = credentials.Certificate("firebase_key_temp.json")
             firebase_admin.initialize_app(cred)
             
-            # Hapus setelah inisialisasi
-            os.remove("temp_firebase_key.json")
-
+            # Hapus file temporary
+            if os.path.exists("firebase_key_temp.json"):
+                os.remove("firebase_key_temp.json")
+                
+            st.success("Firebase berhasil diinisialisasi!")
+            return firestore.client()
         except Exception as e:
-            st.error(f"Failed to initialize Firebase: {e}")
+            st.error(f"Gagal menginisialisasi Firebase: {e}")
+            import traceback
+            st.error(traceback.format_exc())
             return None
     return firestore.client()
 

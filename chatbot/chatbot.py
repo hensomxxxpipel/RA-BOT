@@ -4,7 +4,7 @@ import random
 from dotenv import load_dotenv
 from langchain.memory import ConversationBufferMemory
 from langchain_groq import ChatGroq
-from langchain_anthropic import ChatAnthropic
+# from langchain_anthropic import ChatAnthropic
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.callbacks.tracers.langchain import LangChainTracer
 from langchain.callbacks.manager import CallbackManager
@@ -102,4 +102,3 @@ def get_response_stream(user_input, model_key):
             chunk = error_message[i:i + chunk_size]
             yield chunk
             time.sleep(0.05)
-
