@@ -43,13 +43,13 @@ llm_models = {
         temperature=0.7,
         callback_manager=callback_manager,
     ),
-    "claude3.a": ChatAnthropic(
-        api_key=CLAUDE_API_KEY_A,
-        model="claude-3-7-sonnet-20250219",
-        temperature=0.7,
-        streaming=True,
-        callback_manager=callback_manager,
-    ),
+    # "claude3.a": ChatAnthropic(
+    #     api_key=CLAUDE_API_KEY_A,
+    #     model="claude-3-7-sonnet-20250219",
+    #     temperature=0.7,
+    #     streaming=True,
+    #     callback_manager=callback_manager,
+    # ),
     "gemini.flash": ChatGoogleGenerativeAI(
         api_key=GEMINI_API_KEY,
         model="gemini-2.5-pro-exp-03-25",
@@ -64,7 +64,7 @@ memories = {
     "llama4": ConversationBufferMemory(return_messages=True),
     "deepseek": ConversationBufferMemory(return_messages=True),
     "llama3": ConversationBufferMemory(return_messages=True),
-    "claude3.a": ConversationBufferMemory(return_messages=True),
+    # "claude3.a": ConversationBufferMemory(return_messages=True),
     "gemini.flash": ConversationBufferMemory(return_messages=True),
 }
 
